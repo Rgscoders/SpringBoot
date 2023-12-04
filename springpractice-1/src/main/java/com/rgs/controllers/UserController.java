@@ -1,7 +1,5 @@
 package com.rgs.controllers;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +21,24 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@PostMapping("/api/saveuser")
-	public ResponseEntity<Integer> insertUser(@RequestBody UserDTO userDTO)
-	{
+	public ResponseEntity<Integer> insertUser(@RequestBody UserDTO userDTO){
+		
 		try {
-			Integer userId=userService.saveUser(userDTO);
+			
+			Integer userId = userService.saveUser(userDTO);
 			return new ResponseEntity<>(userId,HttpStatus.CREATED);
+			
 		} catch (Exception e) {
+			
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	@GetMapping("/api/users")
 	public ResponseEntity<List<UserDTO>>getUsers(){
+		
 		try {
-			List<UserDTO> users=userService.loadUsers();
+			
+			List<UserDTO> users = userService.loadUsers();
 			return new ResponseEntity<List<UserDTO>>(users,HttpStatus.OK);
 			
 		}catch (Exception e) {
@@ -44,9 +47,11 @@ public class UserController {
 	}
 	@GetMapping("/api/user/{userId}")
 	public ResponseEntity<UserDTO> getUser(@PathVariable Integer userId){
+		
 		try {
-			UserDTO user=userService.loadUser(userId);
+			UserDTO user = userService.loadUser(userId);
 			return new ResponseEntity<UserDTO>(HttpStatus.OK);
+			
 		}catch (Exception e) {
 			return new ResponseEntity<UserDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -54,9 +59,11 @@ public class UserController {
 	}
 	@PutMapping("/api/updateuser")
 	public ResponseEntity<Void> updateUser(@RequestBody UserDTO userDTO){
+		
 		try {
 			userService.updateUser(userDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -64,9 +71,11 @@ public class UserController {
 	}
 	@DeleteMapping("/api/deleteuser/{userId}")
 	public ResponseEntity<Void>deleteUser(@PathVariable Integer userId){
+		
 		try {
 			userService.deleteUser(userId);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

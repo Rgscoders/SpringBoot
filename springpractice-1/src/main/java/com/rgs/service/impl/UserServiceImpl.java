@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rgs.exception.MyCustomException;
+import com.rgs.exceptions.MyCustomException;
 import com.rgs.repository.UserEntityRepository;
 import com.rgs.repository.model.UserEntity;
 import com.rgs.service.UserService;
@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Integer saveUser(UserDTO userDTO) {
-		
 		
 		Integer userId = 0;
 		
@@ -60,15 +59,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDTO> loadUsers() {
-		List<UserDTO> users=null;
+		List<UserDTO> users = null;
 		try {
+			
+			log.info("In UserServiceImpl loadUsers() Started");
+			
 			List<UserEntity> usersList=userRepository.findAll();
-			if(usersList!=null) {
-				users=new ArrayList<>();
-				ListIterator<UserEntity> li=usersList.listIterator();
-				while (li.hasNext()) {
-					UserEntity userEntity=li.next();
-					UserDTO user=new UserDTO();
+			if(usersList != null) {
+				users = new ArrayList<>();
+				ListIterator<UserEntity> li = usersList.listIterator();
+				while(li.hasNext()) {
+					UserEntity userEntity = li.next();
+					UserDTO user = new UserDTO();
 					user.setFirstName(userEntity.getFirstName());
 					user.setLastName(userEntity.getLastName());
 					user.setEmailId(userEntity.getEmailId());
@@ -89,12 +91,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO loadUser(Integer userId) {
-		UserDTO user=null;
+		UserDTO user = null;
 		try {
-			Optional<UserEntity> optional=userRepository.findById(userId);
+			
+			log.info("In UserServiceImpl loadUser() Started");
+			
+			Optional<UserEntity> optional = userRepository.findById(userId);
 			if(optional.isPresent()) {
-				user=new UserDTO();
-				UserEntity userEntity=optional.get();
+				user = new UserDTO();
+				UserEntity userEntity = optional.get();
 				user.setUserId(userEntity.getUserId());
 				user.setFirstName(userEntity.getFirstName());
 				user.setLastName(userEntity.getLastName());
@@ -114,8 +119,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(UserDTO userDTO) {
 		try {
-			if(userDTO!=null) {
-				UserEntity userEntity=new UserEntity();
+			
+			log.info("In UserServiceImpl updateUser() Started");
+			if(userDTO != null) {
+				UserEntity userEntity = new UserEntity();
 				userEntity.setUserId(userDTO.getUserId());
 				userEntity.setFirstName(userDTO.getFirstName());
 				userEntity.setLastName(userDTO.getLastName());
@@ -133,6 +140,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Integer userId) {
 		try {
+			
+			log.info("In UserServiceImpl deleteUser() Started");
 			UserEntity user=userRepository.findById(userId).get();
 			userRepository.delete(user);
 			
