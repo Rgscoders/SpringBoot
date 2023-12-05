@@ -50,7 +50,7 @@ public class UserController {
 		
 		try {
 			UserDTO user = userService.loadUser(userId);
-			return new ResponseEntity<UserDTO>(HttpStatus.OK);
+			return new ResponseEntity<UserDTO>(user,HttpStatus.OK);
 			
 		}catch (Exception e) {
 			return new ResponseEntity<UserDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
